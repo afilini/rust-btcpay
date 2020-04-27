@@ -46,7 +46,7 @@ pub struct CreateInvoiceArgs {
     pub pos_data: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", rename = "redirectURL")]
     pub redirect_url: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub transaction_speed: Option<TransactionSpeed>,
@@ -59,12 +59,10 @@ pub struct CreateInvoiceArgs {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tax_included: Option<f32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub token: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub redirect_automatically: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub notification_email: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none", rename = "notificationURL")]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub notification_url: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub extended_notifications: Option<bool>,

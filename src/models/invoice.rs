@@ -9,38 +9,59 @@ pub struct Invoice {
     pub pos_data: Option<String>,
     pub btc_price: String,
     pub btc_due: String,
+    #[serde(default)]
     pub crypto_info: Vec<CryptoInfo>,
     pub price: f32,
     pub currency: String,
+    #[serde(default)]
     pub ex_rates: HashMap<String, f32>,
     pub buyer_total_btc_amount: Option<String>,
     pub item_desc: Option<String>,
     pub item_code: Option<String>,
     pub order_id: Option<String>,
-    pub guid: String,
+    pub guid: Option<String>,
     pub id: String,
     pub invoice_time: u64,
     pub expiration_time: u64,
     pub current_time: u64,
-    pub low_fee_detected: bool,
+    pub low_fee_detected: Option<bool>,
     pub btc_paid: String,
     pub rate: f32,
     pub exception_status: bool,
-    pub payment_urls: PaymentUrl,
-    pub refund_address_request_pending: bool,
+    pub payment_urls: Option<PaymentUrl>,
+    pub refund_address_request_pending: Option<bool>,
     pub buyer_paid_btc_miner_fee: Option<String>,
-    pub bitcoin_address: String,
-    pub token: String,
-    pub flags: InvoiceFlags,
+    pub bitcoin_address: Option<String>,
+    pub flags: Option<InvoiceFlags>,
+    #[serde(default)]
     pub payment_subtotals: HashMap<String, f32>,
+    #[serde(default)]
     pub payment_totals: HashMap<String, f32>,
-    pub amount_paid: f32,
+    // FIXME: in create_invoice it's an f32, in the webhook it's a string :/
+    pub amount_paid: serde_json::Value,
+    #[serde(default)]
     pub miner_fees: HashMap<String, MinerFees>,
+    #[serde(default)]
     pub exchange_rates: HashMap<String, HashMap<String, f32>>,
+    #[serde(default)]
     pub supported_transaction_currencies: HashMap<String, SupportedCurrency>,
+    #[serde(default)]
     pub addresses: HashMap<String, String>,
+    #[serde(default)]
     pub payment_codes: HashMap<String, PaymentUrl>,
-    pub buyer: Buyer,
+    pub buyer: Option<Buyer>,
+    pub status: InvoiceStatus,
+}
+
+#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum InvoiceStatus {
+    New,
+    Expired,
+    Paid,
+    Confirmed,
+    Completed,
+    Invalid,
 }
 
 #[serde(rename_all = "camelCase")]
