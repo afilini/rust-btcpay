@@ -65,7 +65,7 @@ impl BTCPayClient {
             .json::<serde_json::Value>()
             .await?;
 
-        let token = intermediate.as_array().ok_or(Error::InvalidResponse)?[0]["token"]
+        let token = intermediate["data"].as_array().ok_or(Error::InvalidResponse)?[0]["token"]
             .as_str()
             .ok_or(Error::InvalidResponse)?
             .to_string();
