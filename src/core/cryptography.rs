@@ -1,9 +1,9 @@
 use std::ops::Deref;
 
-use bitcoin::util::base58;
+use bitcoin::base58;
 
 use bitcoin::secp256k1::{
-    Error as Secp256k1Error, Message, PublicKey, Secp256k1, SecretKey, SerializedSignature,
+    ecdsa::SerializedSignature, Error as Secp256k1Error, Message, PublicKey, Secp256k1, SecretKey,
 };
 
 use bitcoin::hashes::ripemd160::Hash as Ripemd160Hash;
@@ -16,7 +16,7 @@ pub struct Cryptography;
 impl Cryptography {
     pub fn generate_keypair() -> KeyPair {
         Secp256k1::signing_only()
-            .generate_keypair(&mut bitcoin::secp256k1::rand::thread_rng())
+            .generate_keypair(&mut rand::thread_rng())
             .into()
     }
 
@@ -36,23 +36,23 @@ impl Cryptography {
         let mut buffer = version.to_vec();
         buffer.extend_from_slice(&checksum);
 
-        base58::encode_slice(buffer.as_ref())
+        base58::encode(buffer.as_ref())
     }
 
     pub fn sign(
         data: &[u8],
         secret_key: &SecretKey,
     ) -> Result<SerializedSignature, Secp256k1Error> {
-        let hashed = Sha256Hash::hash(data).into_inner();
+        let hashed = Sha256Hash::hash(data).to_byte_array();
 
         Ok(Secp256k1::signing_only()
-            .sign(&Message::from_slice(&hashed)?, secret_key)
+            .sign_ecdsa(&Message::from_slice(&hashed)?, secret_key)
             .serialize_der())
     }
 
     fn get_version_from_key(public_key: &PublicKey) -> [u8; 22] {
-        let sh2 = Sha256Hash::hash(&public_key.serialize()).into_inner();
-        let rp = Ripemd160Hash::hash(&sh2).into_inner();
+        let sh2 = Sha256Hash::hash(&public_key.serialize()).to_byte_array();
+        let rp = Ripemd160Hash::hash(&sh2).to_byte_array();
 
         let mut ans = [0; 22];
         ans[0] = 0x0F;
@@ -65,8 +65,8 @@ impl Cryptography {
     }
 
     fn get_checksum_from_version(version: &[u8]) -> [u8; 4] {
-        let h1 = Sha256Hash::hash(version).into_inner();
-        let h2 = Sha256Hash::hash(&h1).into_inner();
+        let h1 = Sha256Hash::hash(version).to_byte_array();
+        let h2 = Sha256Hash::hash(&h1).to_byte_array();
 
         let mut ans = [0; 4];
         for i in 0..4 {

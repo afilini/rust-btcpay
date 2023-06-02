@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Invoice {
     pub url: String,
     pub pos_data: Option<String>,
@@ -53,8 +53,8 @@ pub struct Invoice {
     pub status: InvoiceStatus,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub enum InvoiceStatus {
     New,
     Expired,
@@ -64,8 +64,8 @@ pub enum InvoiceStatus {
     Invalid,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CryptoInfo {
     pub crypto_code: String,
     pub payment_type: String,
@@ -84,8 +84,8 @@ pub struct CryptoInfo {
     // pub payments: Vec<> ??
 }
 
-#[serde(rename_all = "UPPERCASE")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "UPPERCASE")]
 pub struct PaymentUrl {
     pub bip21: Option<String>,
     pub bip72: Option<String>,
@@ -95,21 +95,21 @@ pub struct PaymentUrl {
     pub bolt11: Option<String>,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct InvoiceFlags {
     pub refundable: bool,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct MinerFees {
     pub satoshis_per_byte: f32,
     pub total_fee: f32,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Buyer {
     pub name: Option<String>,
     pub address1: Option<String>,
@@ -122,8 +122,8 @@ pub struct Buyer {
     pub email: Option<String>,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SupportedCurrency {
     pub enabled: bool,
 }

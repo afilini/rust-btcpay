@@ -4,14 +4,14 @@ use serde::{Deserialize, Serialize};
 
 use super::invoice::SupportedCurrency;
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PairClientResponse {
     pub merchant: String,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GetInvoicesArgs {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
@@ -29,8 +29,8 @@ pub struct GetInvoicesArgs {
     pub offset: Option<usize>,
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CreateInvoiceArgs {
     pub currency: String,
     pub price: f32,
@@ -98,15 +98,15 @@ impl CreateInvoiceArgs {
     }
 }
 
-#[serde(untagged)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum OrderId {
     String(String),
     Number(usize),
 }
 
-#[serde(rename_all = "kebab-case")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum TransactionSpeed {
     Low,
     LowMedium,
