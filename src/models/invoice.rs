@@ -7,14 +7,14 @@ use serde::{Deserialize, Serialize};
 pub struct Invoice {
     pub url: String,
     pub pos_data: Option<String>,
-    pub btc_price: String,
-    pub btc_due: String,
+    pub btc_price: Option<String>,
+    pub btc_due: Option<String>,
     #[serde(default)]
     pub crypto_info: Vec<CryptoInfo>,
     pub price: f32,
     pub currency: String,
     #[serde(default)]
-    pub ex_rates: HashMap<String, f32>,
+    pub ex_rates: Option<HashMap<String, f32>>,
     pub buyer_total_btc_amount: Option<String>,
     pub item_desc: Option<String>,
     pub item_code: Option<String>,
@@ -25,7 +25,7 @@ pub struct Invoice {
     pub expiration_time: u64,
     pub current_time: u64,
     pub low_fee_detected: Option<bool>,
-    pub btc_paid: String,
+    pub btc_paid: Option<String>,
     pub rate: f32,
     pub exception_status: bool,
     pub payment_urls: Option<PaymentUrl>,
