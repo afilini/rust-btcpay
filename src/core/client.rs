@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use bitcoin::hashes::hex::ToHex;
 use regex::Regex;
 use reqwest::{header, Client, Response};
 use serde::Serialize;
@@ -65,7 +64,9 @@ impl BTCPayClient {
             .json::<serde_json::Value>()
             .await?;
 
-        let token = intermediate["data"].as_array().ok_or(Error::InvalidResponse)?[0]["token"]
+        let token = intermediate["data"]
+            .as_array()
+            .ok_or(Error::InvalidResponse)?[0]["token"]
             .as_str()
             .ok_or(Error::InvalidResponse)?
             .to_string();
@@ -112,7 +113,10 @@ impl BTCPayClient {
 
     fn create_signed_headers(&self, uri: &str, payload: &str) -> header::HeaderMap {
         let mut headers = header::HeaderMap::new();
-        headers.insert("X-Identity", self.keypair.public.to_hex().parse().unwrap());
+        headers.insert(
+            "X-Identity",
+            self.keypair.public.to_string().parse().unwrap(),
+        );
         headers.insert(
             "X-Signature",
             Cryptography::sign(
@@ -120,7 +124,7 @@ impl BTCPayClient {
                 self.keypair.secret(),
             )
             .unwrap()
-            .to_hex()
+            .to_string()
             .parse()
             .unwrap(),
         );
@@ -187,8 +191,8 @@ impl BTCPayClient {
     }
 }
 
-#[serde(rename_all = "camelCase")]
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 struct PairClientRequest {
     id: String,
     pairing_code: String,
@@ -212,8 +216,7 @@ impl std::fmt::Display for Error {
     }
 }
 
-impl std::error::Error for Error {
-}
+impl std::error::Error for Error {}
 
 impl From<reqwest::Error> for Error {
     fn from(other: reqwest::Error) -> Error {
