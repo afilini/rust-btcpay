@@ -1,6 +1,6 @@
 [package]
 name = "btcpay"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Alekos Filini <alekos.filini@gmail.com>"]
 license = "MIT"
 homepage = "https://github.com/afilini/rust-btcpay"
